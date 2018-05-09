@@ -1,0 +1,14 @@
+{
+  "complierOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "strict": true,
+    // "watch": true,
+    "esModuleInterop": true,
+    "lib": [
+      "es2015.promise"
+    ]
+  },
+  "include": ["src/**/*"]
+}
