@@ -1,5 +1,5 @@
 import { amapLocation } from './utils/location'
-import * as wxpp from './utils/wepp/'
+import * as wxpp from './utils/wepp/wepp'
 
 App({
   data: {

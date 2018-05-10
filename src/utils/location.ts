@@ -2,7 +2,7 @@
  * 08/05/2018
  * 高德地理位置api c-Ku
  */
-import * as wxpp from './wepp'
+import * as wxpp from './wepp/wepp'
 
 const uri: string = 'https://restapi.amap.com'
 const path: string = 'v3/geocode/regeo'
