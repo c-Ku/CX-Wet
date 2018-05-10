@@ -2,7 +2,7 @@
  * 08/05/2018
  * 高德地理位置api c-Ku
  */
-import * as wxpp from './wechat'
+import * as wxpp from './wepp'
 
 const uri: string = 'https://restapi.amap.com'
 const path: string = 'v3/geocode/regeo'
@@ -28,7 +28,7 @@ const amapLocation = (
     output: 'json',
     roadlevel: 0,
   }
-  return wxpp.request(uri, path, param).then(res => ({
+  return wxpp.request(uri, path, param).then((res: any) => ({
     country: res.data.regeocode.addressComponent.country,
     province: res.data.regeocode.addressComponent.province,
     city: res.data.regeocode.addressComponent.city,

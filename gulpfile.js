@@ -13,9 +13,10 @@ const readJson = require('read-package-json')
 const tsProject = ts.createProject('tsconfig.json')
 
 const packages = {
-  'es6-promise': {
-    path: ['node_modules/es6-promise/dist/es6-promise.min.js'],
-  },
+  // 'es6-promise': {
+  //   path: ['node_modules/es6-promise/dist/es6-promise.min.js'],
+  //   rename: 'es6-promise.min',
+  // },
 }
 
 gulp.task('wxml', function() {
@@ -25,7 +26,7 @@ gulp.task('wxml', function() {
 gulp.task('ts2js', function() {
   return (
     gulp
-      .src('src/**/*.ts')
+      .src(['src/**/*.ts', '!src/**/*.type.ts'])
       .pipe(tsProject())
       .js.pipe(replace('exports.', 'module.exports.'))
       .pipe(
@@ -41,13 +42,10 @@ gulp.task('ts2js', function() {
 
             matches.forEach(match => {
               const package = match.substring(9, match.length - 2)
-              if (
-                package &&
-                Object.keys(packages).indexOf(package) >= 0
-              ) {
+              if (package && Object.keys(packages).indexOf(package) >= 0) {
                 contents = contents.replace(
                   `require("${package}")`,
-                  `require("${rPath}lib/${package}")`,
+                  `require("${rPath}lib/${packages[package].rename}")`,
                 )
               }
             })
@@ -85,9 +83,11 @@ gulp.task('static', function() {
 })
 
 gulp.task('copyLibs', function() {
-  return gulp
-    .src('node_modules/es6-promise/dist/es6-promise.js')
-    .pipe(gulp.dest('dist/lib'))
+  Object.keys(packages).forEach(package => {
+    packages[package].path.forEach(item => {
+      gulp.src(item).pipe(gulp.dest('dist/lib'))
+    })
+  })
 })
 
 gulp.task('build', ['wxml', 'ts2js', 'sass2wxss', 'static', 'copyLibs'], () => {

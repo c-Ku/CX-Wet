@@ -31,7 +31,7 @@ Page({
     } else {
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
+      app.userInfoReadyCallback = (res: any) => {
         this.setData({
           userInfo: res.userInfo,
           hasUserInfo: true,
@@ -45,7 +45,7 @@ Page({
         hasLocationInfo: true,
       })
     } else {
-      app.locationInfoReadyCallback = res => {
+      app.locationInfoReadyCallback = (res: any) => {
         this.setData({
           locationInfo: res,
           hasUserInfo: true,
@@ -53,10 +53,10 @@ Page({
       }
     }
   },
-  getUserInfo(e) {
-    app.globalData.userInfo = e.detail.userInfo
+  getUserInfo(req: any) {
+    app.globalData.userInfo = req.detail.userInfo
     this.setData({
-      userInfo: e.detail.userInfo,
+      userInfo: req.detail.userInfo,
       hasUserInfo: true,
     })
   },

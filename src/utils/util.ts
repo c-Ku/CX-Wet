@@ -1,4 +1,4 @@
-const formatTime = date => {
+const formatTime = (date: Date) => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
@@ -13,12 +13,9 @@ const formatTime = date => {
   )
 }
 
-const formatNumber = n => {
-  n = n.toString()
-  return n[1] ? n : '0' + n
+const formatNumber = (n: number) => {
+  const _n = n.toString()
+  return _n[1] ? n : '0' + n
 }
 
-export {
-  formatTime,
-  formatNumber,
-}
+export { formatTime }
