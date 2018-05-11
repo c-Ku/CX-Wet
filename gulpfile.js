@@ -54,7 +54,7 @@ gulp.task('ts2js', function() {
           },
         }),
       )
-      // .pipe(uglify())
+      .pipe(uglify())
       .pipe(gulp.dest('dist'))
   )
 })
