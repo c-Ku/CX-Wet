@@ -6,7 +6,7 @@ App({
     name: 'test',
     version: '0.0.1',
   },
-  async onLaunch() {
+  onLaunch() {
     wxpp.login()
     wxpp.getLocation('wgs84').then(async ({ longitude, latitude }: any) => {
       const locationInfo = await amapLocation(longitude, latitude)
