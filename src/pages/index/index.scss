@@ -3,6 +3,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  .info {
+    color: #AAAAAA;
+  }
 }
 
 .userinfo-avatar {
@@ -10,10 +13,6 @@
   height: 128rpx;
   margin: 20rpx;
   border-radius: 50%;
-}
-
-.userinfo-info {
-  color: #AAAAAA;
 }
 
 .usermotto {

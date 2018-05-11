@@ -7,7 +7,7 @@ import * as wxpp from './wepp/wepp'
 const uri: string = 'https://restapi.amap.com'
 const path: string = 'v3/geocode/regeo'
 
-interface ILocations {
+export interface ILocations {
   country: string
   province: string
   city: Array<string>
