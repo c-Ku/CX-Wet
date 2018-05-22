@@ -13,10 +13,10 @@ const readJson = require('read-package-json')
 const tsProject = ts.createProject('tsconfig.json')
 
 const packages = {
-  // 'es6-promise': {
-  //   path: ['node_modules/es6-promise/dist/es6-promise.min.js'],
-  //   rename: 'es6-promise.min',
-  // },
+  'object-path': {
+    path: ['node_modules/object-path/index.js'],
+    rename: 'index',
+  },
 }
 
 gulp.task('wxml', function() {
@@ -37,7 +37,7 @@ gulp.task('ts2js', function() {
               return contents
             }
 
-            let rPath = path.relative(file.path, './src')
+            let rPath = path.relative(file.path, './dist')
             rPath = rPath.substring(0, rPath.length - 2)
 
             matches.forEach(match => {
@@ -45,7 +45,7 @@ gulp.task('ts2js', function() {
               if (package && Object.keys(packages).indexOf(package) >= 0) {
                 contents = contents.replace(
                   `require("${package}")`,
-                  `require("${rPath}lib/${packages[package].rename}")`,
+                  `require("${rPath}lib/${package}/${packages[package].rename}")`,
                 )
               }
             })
@@ -78,14 +78,15 @@ gulp.task('sass2wxss', function() {
 
 gulp.task('static', function() {
   return gulp
-    .src(['src/**/*.png', 'src/**/*.svg', 'src/**/*.json'])
+    .src(['src/**/*.png', 'src/**/*.svg', 'src/**/*.ttf', 'src/**/*.woff', 'src/**/*.eot', 'src/**/*.json'])
     .pipe(gulp.dest('dist'))
 })
 
 gulp.task('copyLibs', function() {
   Object.keys(packages).forEach(package => {
     packages[package].path.forEach(item => {
-      gulp.src(item).pipe(gulp.dest('dist/lib'))
+      gulp.src(item)
+      .pipe(gulp.dest(`dist/lib/${package}`))
     })
   })
 })
@@ -94,5 +95,5 @@ gulp.task('build', ['wxml', 'ts2js', 'sass2wxss', 'static', 'copyLibs'], () => {
   gulp.watch('src/**/*.wxml', ['wxml'])
   gulp.watch('src/**/*.ts', ['ts2js'])
   gulp.watch('src/**/*.scss', ['sass2wxss'])
-  gulp.watch(['src/**/*.png', 'src/**/*.svg', 'src/**/*.json'], ['static'])
+  gulp.watch(['src/**/*.png', 'src/**/*.svg', 'src/**/*.ttf', 'src/**/*.woff', 'src/**/*.eot', 'src/**/*.json'], ['static'])
 })
