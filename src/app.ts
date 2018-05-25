@@ -8,14 +8,16 @@ App({
   },
   onLaunch() {
     wxpp.login()
-    wxpp.getLocation('wgs84').then(async ({ longitude, latitude }: any) => {
-      const locationInfo = await amapLocation(longitude, latitude)
-      if (this.setLocationInfo) {
-        this.setLocationInfo(locationInfo)
-      } else {
-        this.globalData.locationInfo = locationInfo
-      }
-    })
+    wxpp
+      .getLocation({ type: 'wgs84' })
+      .then(async ({ longitude, latitude }: any) => {
+        const locationInfo = await amapLocation(longitude, latitude)
+        if (this.setLocationInfo) {
+          this.setLocationInfo(locationInfo)
+        } else {
+          this.globalData.locationInfo = locationInfo
+        }
+      })
   },
   globalData: {
     locationInfo: null,

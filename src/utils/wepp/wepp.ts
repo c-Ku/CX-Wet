@@ -1,11 +1,4 @@
-import {
-  IHttpResponse,
-  ILocationInfo,
-  ILoginResult,
-  ISetting,
-  ISystemInfo,
-  IUserInfo,
-} from './wepp.type'
+import * as wetype from './wepp.type'
 
 function wxPromisify<RES>(wxMethod: any, extra?: Object) {
   return new Promise((resolve: (res: RES) => void, reject) => {
@@ -14,54 +7,77 @@ function wxPromisify<RES>(wxMethod: any, extra?: Object) {
 }
 
 const login = () => {
-  return wxPromisify<ILoginResult>(wx.login)
+  return wxPromisify<wetype.ILoginResult>(wx.login)
 }
 
 const getUserInfo = () => {
-  return wxPromisify<IUserInfo>(wx.getUserInfo)
+  return wxPromisify<wetype.IUserInfo>(wx.getUserInfo)
 }
 
 const getSystemInfo = () => {
-  return wxPromisify<ISystemInfo>(wx.getSystemInfo)
+  return wxPromisify<wetype.ISystemInfo>(wx.getSystemInfo)
 }
 
 const getSetting = () => {
-  return wxPromisify<ISetting>(wx.getSetting)
+  return wxPromisify<wetype.ISetting>(wx.getSetting)
 }
 
-const setStorage = (key: string, data: string) => {
+const setStorage = ({ key, data }: wetype.ISetStorage) => {
   return wxPromisify(wx.setStorage, { key, data })
 }
 
-const getStorage = (key: string) => {
+const getStorage = ({ key }: wetype.IGetStorage) => {
   return wxPromisify(wx.getStorage, { key })
 }
 
-const getLocation = (type: string) => {
-  return wxPromisify<ILocationInfo>(wx.getLocation, { type })
+const getLocation = ({ type, altitude }: wetype.IGetLocationParam) => {
+  return wxPromisify<wetype.ILocationInfo>(wx.getLocation, { type, altitude })
 }
 
-const request = (api: string, path: string, params: any): Promise<any> => {
-  const data: { [name: string]: string } = {}
-
-  Object.keys(params).forEach(key => {
-    data[key] = params[key]
-  })
-
-  return wxPromisify<IHttpResponse>(wx.request, {
+const request = (
+  { api, path, data, header, method }: wetype.IRequestParam = {
+    api: '',
+    path: '',
+    data: {},
+    header: { 'Content-Type': 'json' },
+    method: 'GET',
+  },
+): Promise<any> => {
+  data = Object.assign({}, data)
+  return wxPromisify<wetype.IHttpResponse>(wx.request, {
     url: `${api}/${path}`,
     data,
-    header: { 'Content-Type': 'json' },
+    header,
+    method,
   })
+}
+
+const scanCode = (
+  { onlyFromCamera, scanType }: wetype.IScanCodeParam = {
+    onlyFromCamera: false,
+    scanType: ['qrCode', 'barCode', 'datamatrix', 'pdf417'],
+  },
+) => {
+  return wxPromisify<wetype.IScanCode>(wx.scanCode, {
+    onlyFromCamera,
+    scanType,
+  })
+}
+
+const showModal = ({ title, content }: wetype.IShowModalParam) => {
+  return wxPromisify(wx.showModal, { title, content })
 }
 
 export {
   wxPromisify,
   login,
   getUserInfo,
+  getSystemInfo,
   getSetting,
   setStorage,
   getStorage,
   getLocation,
   request,
+  scanCode,
+  showModal,
 }

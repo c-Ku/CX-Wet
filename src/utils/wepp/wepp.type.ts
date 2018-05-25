@@ -44,6 +44,19 @@ export interface ISetting {
   'scope.writePhotosAlbum': boolean
 }
 
+export interface ISetStorage {
+  key: string
+  data: string
+}
+
+export interface IGetStorage {
+  key: string
+}
+
+export interface IGetLocationParam {
+  type?: 'wgs84' | 'gcj02'
+  altitude?: boolean
+}
 export interface ILocationInfo {
   latitude: number
   longitude: number
@@ -54,9 +67,40 @@ export interface ILocationInfo {
   horizontalAccuracy: number
 }
 
+export interface IRequestParam {
+  api: string
+  path: string
+  data?: any
+  header?: any
+  method?:
+    | 'OPTIONS'
+    | 'GET'
+    | 'HEAD'
+    | 'POST'
+    | 'PUT'
+    | 'DELETE'
+    | 'TRACE'
+    | 'CONNECT'
+}
 export interface IHttpResponse {
   data?: Object | string | ArrayBuffer
   errMsg: string
   statusCode: number
   header?: Object
+}
+
+export interface IScanCodeParam {
+  onlyFromCamera?: boolean
+  scanType?: Array<string>
+}
+export interface IScanCode {
+  result: string
+  scaqnType: string
+  charSet: string
+  path: string
+}
+
+export interface IShowModalParam {
+  title: string
+  content: string
 }
