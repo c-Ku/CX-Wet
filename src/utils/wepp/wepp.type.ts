@@ -1,3 +1,25 @@
+export interface IRequestParam {
+  api: string
+  path: string
+  data?: any
+  header?: any
+  method?:
+    | 'OPTIONS'
+    | 'GET'
+    | 'HEAD'
+    | 'POST'
+    | 'PUT'
+    | 'DELETE'
+    | 'TRACE'
+    | 'CONNECT'
+}
+export interface IHttpResponse {
+  data?: Object | string | ArrayBuffer
+  errMsg: string
+  statusCode: number
+  header?: Object
+}
+
 export interface ILoginResult {
   errMsg: string
   code: string
@@ -57,7 +79,7 @@ export interface IGetLocationParam {
   type?: 'wgs84' | 'gcj02'
   altitude?: boolean
 }
-export interface ILocationInfo {
+export interface IGetLocation {
   latitude: number
   longitude: number
   speed: number
@@ -66,27 +88,11 @@ export interface ILocationInfo {
   verticalAccuracy: number
   horizontalAccuracy: number
 }
-
-export interface IRequestParam {
-  api: string
-  path: string
-  data?: any
-  header?: any
-  method?:
-    | 'OPTIONS'
-    | 'GET'
-    | 'HEAD'
-    | 'POST'
-    | 'PUT'
-    | 'DELETE'
-    | 'TRACE'
-    | 'CONNECT'
-}
-export interface IHttpResponse {
-  data?: Object | string | ArrayBuffer
-  errMsg: string
-  statusCode: number
-  header?: Object
+export interface IChooseLocation {
+  name: string
+  address: string
+  latitude: number
+  longitude: number
 }
 
 export interface IScanCodeParam {
@@ -103,4 +109,8 @@ export interface IScanCode {
 export interface IShowModalParam {
   title: string
   content: string
+}
+
+export interface ISetClipboardData {
+  data: string
 }
