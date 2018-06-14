@@ -33,11 +33,11 @@ const request = (
  * 数据存储
  */
 
-const setStorage = ({ key, data }: wetype.ISetStorage) => {
-  return wxPromisify(wx.setStorage, { key, data })
+const setStorage = (params: wetype.ISetStorage) => {
+  return wxPromisify(wx.setStorage, params)
 }
-const getStorage = ({ key }: wetype.IGetStorage) => {
-  return wxPromisify(wx.getStorage, { key })
+const getStorage = (params: wetype.IGetStorage) => {
+  return wxPromisify(wx.getStorage, params)
 }
 
 /**
@@ -45,8 +45,8 @@ const getStorage = ({ key }: wetype.IGetStorage) => {
  */
 
 // 获取位置
-const getLocation = ({ type, altitude }: wetype.IGetLocationParam) => {
-  return wxPromisify<wetype.IGetLocation>(wx.getLocation, { type, altitude })
+const getLocation = (params: wetype.IGetLocationParam) => {
+  return wxPromisify<wetype.IGetLocation>(wx.getLocation, params)
 }
 const chooseLocation = () => {
   return wxPromisify<wetype.IChooseLocation>(wx.chooseLocation)
@@ -75,8 +75,8 @@ const scanCode = (
 }
 
 // 剪贴板
-const setClipboardData = ({ data }: wetype.ISetClipboardData) => {
-  return wxPromisify(wx.setClipboardData, { data })
+const setClipboardData = (params: wetype.ISetClipboardData) => {
+  return wxPromisify(wx.setClipboardData, params)
 }
 const getClipboardData = () => {
   return wxPromisify(wx.getClipboardData)
@@ -92,8 +92,8 @@ const getSetting = () => {
  */
 
 // 交互反馈
-const showModal = ({ title, content }: wetype.IShowModalParam) => {
-  return wxPromisify(wx.showModal, { title, content })
+const showModal = (params: wetype.IShowModalParam) => {
+  return wxPromisify(wx.showModal, params)
 }
 
 /**
@@ -108,6 +108,11 @@ const login = () => {
 // 用户信息
 const getUserInfo = () => {
   return wxPromisify<wetype.IUserInfo>(wx.getUserInfo)
+}
+
+// 微信支付
+const requestPayment = (params: wetype.IRequestPaymentParam) => {
+  return wxPromisify(wx.requestPayment, params)
 }
 
 export {
@@ -125,4 +130,5 @@ export {
   showModal,
   setClipboardData,
   getClipboardData,
+  requestPayment,
 }

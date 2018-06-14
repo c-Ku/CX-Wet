@@ -109,8 +109,21 @@ export interface IScanCode {
 export interface IShowModalParam {
   title: string
   content: string
+  showCancel?: boolean
+  cancelText?: string
+  cancelColor?: string
+  confirmText?: string
+  confirmColor?: string
 }
 
 export interface ISetClipboardData {
   data: string
+}
+
+export interface IRequestPaymentParam {
+  timeStamp: string
+  nonceStr: string
+  package: string
+  signType: 'MD5'
+  paySign: string
 }

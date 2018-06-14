@@ -10,7 +10,5 @@ npm install
 
 ## 工具运行
 ```
-gulp build
+npm run build
 ```
-
-- 请您不吝赐教，帮助完善！
