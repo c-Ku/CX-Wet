@@ -19,10 +19,17 @@ const packages = {
   },
 }
 
+/**
+ * 将 wxml 文件原封不动拷贝至 dist
+ */
 gulp.task('wxml', function() {
   return gulp.src('src/**/*.wxml').pipe(gulp.dest('dist'))
 })
 
+/**
+ * 将 ts 文件转换为 js
+ * 压缩后放至 dist
+ */
 gulp.task('ts2js', function() {
   return (
     gulp
@@ -59,6 +66,10 @@ gulp.task('ts2js', function() {
   )
 })
 
+/**
+ * 将 scss 文件转换为 css
+ * 压缩后放至 dist
+ */
 gulp.task('sass2wxss', function() {
   return gulp
     .src('src/**/*.scss')
@@ -76,12 +87,19 @@ gulp.task('sass2wxss', function() {
     .pipe(gulp.dest('dist'))
 })
 
+/**
+ * 静态文件如字体、json、png 图片等
+ * 原封不动拷贝至 dist
+ */
 gulp.task('static', function() {
   return gulp
     .src(['src/**/*.png', 'src/**/*.svg', 'src/**/*.ttf', 'src/**/*.woff', 'src/**/*.eot', 'src/**/*.json'])
     .pipe(gulp.dest('dist'))
 })
 
+/**
+ * 将预设好需拷贝的包放至 lib 文件夹
+ */
 gulp.task('copyLibs', function() {
   Object.keys(packages).forEach(package => {
     packages[package].path.forEach(item => {
@@ -91,6 +109,9 @@ gulp.task('copyLibs', function() {
   })
 })
 
+/**
+ * watch
+ */
 gulp.task('build', ['wxml', 'ts2js', 'sass2wxss', 'static', 'copyLibs'], () => {
   gulp.watch('src/**/*.wxml', ['wxml'])
   gulp.watch('src/**/*.ts', ['ts2js'])
