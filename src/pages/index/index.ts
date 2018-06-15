@@ -41,12 +41,16 @@ Page({
   onReady() {
     wepp.getUserInfo().then((res: any) => {
       if (res) {
-        const userInfo = getUserInfo(res)
-        this.setData({
-          userInfo,
-          hasUserInfo: true,
-        })
+        this.getUserInfo(res)
       }
+    })
+  },
+
+  getUserInfo(res: any) {
+    const userInfo = getUserInfo(res)
+    this.setData({
+      userInfo,
+      hasUserInfo: true,
     })
   },
 })
