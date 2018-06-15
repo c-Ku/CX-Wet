@@ -1,6 +1,20 @@
 import * as wepp from './wepp/wepp'
 
+const weapp = getApp()
 const hostName = 'http://localhost:3000'
+
+/**
+ * 获取用户个人信息
+ */
+const getUserInfo = (req: any) => {
+  const wxUserInfo = req.detail ? req.detail.userInfo : req.userInfo
+
+  if (wxUserInfo) {
+    weapp.globalData.userInfo = wxUserInfo
+  }
+
+  return wxUserInfo
+}
 
 /**
  * 获取时间戳
@@ -110,6 +124,7 @@ const loadMore: (
 }
 
 export {
+  getUserInfo,
   getTimeStamp,
   getNonceStr,
   formatDate,

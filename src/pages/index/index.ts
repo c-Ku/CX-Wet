@@ -1,6 +1,8 @@
 //index.js
 //获取应用实例
 import { ILocations } from '../../utils/location'
+import { getUserInfo } from '../../utils/util'
+import * as wepp from '../../utils/wepp/wepp'
 
 const app = getApp()
 
@@ -19,11 +21,13 @@ Page({
       url: '../logs/logs',
     })
   },
+
   helloWorld() {
     wx.navigateTo({
       url: '../demos/demos',
     })
   },
+
   onLoad() {
     const locationInfo = app.globalData.locationInfo
     if (locationInfo) {
@@ -33,11 +37,16 @@ Page({
         this.setData({ locationInfo })
     }
   },
-  getUserInfo(req: any) {
-    app.globalData.userInfo = req.detail.userInfo
-    this.setData({
-      userInfo: req.detail.userInfo,
-      hasUserInfo: true,
+
+  onReady() {
+    wepp.getUserInfo().then((res: any) => {
+      if (res) {
+        const userInfo = getUserInfo(res)
+        this.setData({
+          userInfo,
+          hasUserInfo: true,
+        })
+      }
     })
   },
 })
