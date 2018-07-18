@@ -9,6 +9,7 @@
   "author": "c-Ku",
   "license": "MIT",
   "devDependencies": {
+    "@types/md5": "^2.1.32",
     "@types/object-path": "^0.9.29",
     "gulp": "^3.9.1",
     "gulp-minify-css": "^1.2.4",
@@ -18,9 +19,10 @@
     "gulp-sass": "^4.0.1",
     "gulp-typescript": "^4.0.2",
     "gulp-uglify": "^3.0.0",
+    "md5": "^2.2.1",
     "object-path": "^0.11.4",
     "read-package-json": "^2.0.13",
-    "typed-we-app": "^1.7.0-update.2",
+    "typed-we-app": "^1.7.0-update.5",
     "typescript": "^2.8.3"
   },
   "dependencies": {
