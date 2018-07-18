@@ -17,6 +17,10 @@ const packages = {
     path: ['node_modules/object-path/index.js'],
     rename: 'index',
   },
+  'md5': {
+    path: ['node_modules/md5/md5.js'],
+    rename: 'md5',
+  }
 }
 
 /**
@@ -39,7 +43,7 @@ gulp.task('ts2js', function() {
       .pipe(
         modify({
           fileModifier: (file, contents) => {
-            const matches = contents.match(/require\("(.*?)"\)/g)
+            const matches = contents.match(/require\(("|')(.*?)("|')\)/g)
             if (!matches) {
               return contents
             }
@@ -50,9 +54,10 @@ gulp.task('ts2js', function() {
             matches.forEach(match => {
               const package = match.substring(9, match.length - 2)
               if (package && Object.keys(packages).indexOf(package) >= 0) {
+                const regular = RegExp(`require\\(("|')` + package + `("|')\\)`)
                 contents = contents.replace(
-                  `require("${package}")`,
-                  `require("${rPath}lib/${package}/${packages[package].rename}")`,
+                  regular,
+                  `require('${rPath}lib/${package}/${packages[package].rename}')`,
                 )
               }
             })
@@ -103,7 +108,31 @@ gulp.task('static', function() {
 gulp.task('copyLibs', function() {
   Object.keys(packages).forEach(package => {
     packages[package].path.forEach(item => {
-      gulp.src(item)
+      gulp
+      .src(item)
+      .pipe(
+        modify({
+          fileModifier: (file, contents) => {
+            const matches = contents.match(/require\(("|')(.*?)("|')\)/g)
+            if (!matches) {
+              return contents
+            }
+
+            matches.forEach(match => {
+              const package = match.substring(9, match.length - 2)
+              if (package && Object.keys(packages).indexOf(package) >= 0) {
+                const regular = RegExp(`require\\(("|')` + package + `("|')\\)`)
+                contents = contents.replace(
+                  regular,
+                  `require('../${package}/${packages[package].rename}')`,
+                )
+              }
+            })
+
+            return contents
+          },
+        }),
+      )
       .pipe(gulp.dest(`dist/lib/${package}`))
     })
   })
